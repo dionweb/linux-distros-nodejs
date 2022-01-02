@@ -8,8 +8,8 @@ const adminData = require("./admin");
 const router = express.Router();
 
 router.get("/", (req, res, next) => {
-  console.log("distros.js", adminData.distros);
-  res.sendFile(path.join(rootDir, "views", "distros.html"));
+  const distros = adminData.distros;
+  res.render("distros", { distros: distros, docTitle: "Distros", path: "/" });
 });
 
 module.exports = router;

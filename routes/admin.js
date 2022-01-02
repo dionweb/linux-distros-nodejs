@@ -10,7 +10,10 @@ const distros = [];
 
 // admin/add-distro
 router.get("/add-distro", (req, res, next) => {
-  res.sendFile(path.join(rootDir, "views", "add-distro.html"));
+  res.render("add-distro", {
+    docTitle: "Add distro",
+    path: "/admin/add-distro",
+  });
 });
 
 router.post("/add-distro", (req, res, next) => {

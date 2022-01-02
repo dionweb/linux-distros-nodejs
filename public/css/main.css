@@ -36,3 +36,7 @@ a:active,
 a.active {
   color: #232c81;
 }
+
+.active {
+  font-weight: bold;
+}

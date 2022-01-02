@@ -1,0 +1,36 @@
+<%- include('includes/head.ejs') %>
+   <link rel="stylesheet" href="/css/distros.css">
+</head>
+<body>
+   <%- include('includes/nav.ejs') %>
+   
+   <main>
+      <% if (distros.length > 0) { %>
+         <h1>Linux Distros</h1>
+         <p>List of linux distros</p>
+
+         <div class="grid">
+            <% for (let distro of distros) { %>
+               <article class="card-distro-item">
+                  <div class="card-header">
+                     <h1 class="distro-title"><%= distro.title %></h1>
+                  </div>
+                  <div class="card-image">
+                     <img src="https://getfedora.org/static/images/g-monitor-fedoralogo.png" alt="">
+                  </div>
+                  <div class="card-content">
+                     <h2 class="distro-based">Based on</h2>
+                     <p class="distro-description">A description</p>
+                  </div>
+                  <div class="card-actions">
+                     <button class="btn">Add</button>
+                  </div>
+               </article>
+            <% } %>
+         </div>
+      <% } else { %>
+         <h1>No distros Found</h1>
+      <% } %>
+   </main>
+
+<%- include('includes/end.ejs') %>
