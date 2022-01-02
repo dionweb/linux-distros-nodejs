@@ -18,8 +18,13 @@ const getDistrosFromFile = (cb) => {
 };
 
 module.exports = class Distro {
-  constructor(t) {
-    this.title = t;
+  constructor(name, basedOn, imageUrl, desktopEnv, description, isActive) {
+    this.name = name;
+    this.basedOn = basedOn;
+    this.imageUrl = imageUrl;
+    this.desktopEnv = desktopEnv;
+    this.description = description;
+    this.isActive = isActive;
   }
 
   save() {

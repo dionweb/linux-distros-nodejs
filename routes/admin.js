@@ -2,13 +2,16 @@ const path = require("path");
 
 const express = require("express");
 
-const distrosController = require("../controllers/distros");
+const adminController = require("../controllers/admin");
 
 const router = express.Router();
 
-// admin/add-distro
-router.get("/add-distro", distrosController.getAddDistro);
+// admin/add-distro .... admin/distros ==> GET
+router.get("/add-distro", adminController.getAddDistro);
 
-router.post("/add-distro", distrosController.postAddDistro);
+router.get("/distros", adminController.getDistros);
+
+// admin/add-distro .... admin/distros ==> POST
+router.post("/add-distro", adminController.postAddDistro);
 
 module.exports = router;

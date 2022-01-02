@@ -1,8 +1,19 @@
 <header>
    <nav>
       <ul>
-         <li><a href="/" class="<%= path === '/' ? 'active' : '' %>">Distros</a></li>
-         <li><a href="/admin/add-distro" class="<%= path === '/admin/add-distro' ? 'active' : '' %>">Add Distro</a></li>
+         <li><a href="/" class="<%= path === '/' ? 'active' : '' %>">Home</a></li>
+         <li>
+            <a href="/distros" class="<%= path === '/distros' ? 'active' : '' %>">Distros</a>
+         </li>
+         <li>
+            <a href="/hopping" class="<%= path === '/hopping' ? 'active' : '' %>">Hopping</a>
+         </li>
+         <li>
+            <a href="/admin/add-distro" class="<%= path === '/admin/add-distro' ? 'active' : '' %>">Add distro</a>
+         </li>
+         <li>
+            <a href="/admin/distros" class="<%= path === '/admin/distros' ? 'active' : '' %>">Admin Distros</a>
+         </li>
       </ul>
    </nav>
 </header>

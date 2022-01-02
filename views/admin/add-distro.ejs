@@ -1,0 +1,44 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/css/add-distro.css">
+</head>
+
+<body>
+   <%- include('../includes/nav.ejs') %>
+
+   <main>
+      <form action="/admin/add-distro" method="POST">
+         <div class="form-control">
+            <label for="name">Name</label>
+            <input type="text" name="name" id="name">
+         </div>
+         <div class="form-control">
+            <label for="imageUrl">Image URL</label>
+            <input type="text" name="imageUrl" id="imageUrl">
+         </div>
+         <div class="form-control">
+            <label for="basedOn">Based on</label>
+            <input type="text" name="basedOn" id="basedOn">
+         </div>
+         <div class="form-control">
+            <label for="description">Description</label>
+            <textarea name="description" id="description" cols="30" rows="5"></textarea>
+         </div>
+         <div class="form-control">
+            <label for="desktopEnv">Desktop Env</label>
+            <input type="text" name="desktopEnv" id="desktopEnv">
+         </div>
+
+         <div class="form-control">
+            <input type="radio" id="active" name="isActive" value="active" checked>
+            <label for="active">Active</label>
+         </div>
+         <div>
+            <input type="radio" id="inactive" name="isActive" value="inactive">
+            <label for="inactive">Inactive</label>
+         </div>
+
+         <button type="submit">Add distro</button>
+      </form>
+   </main>
+
+   <%- include('../includes/end.ejs') %>

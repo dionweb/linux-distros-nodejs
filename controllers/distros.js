@@ -1,20 +1,28 @@
 const Distro = require("../models/distro");
 
-exports.getAddDistro = (req, res, next) => {
-  res.render("add-distro", {
-    docTitle: "Add distro",
-    path: "/admin/add-distro",
+exports.getDistros = (req, res, next) => {
+  Distro.fetchAll((distros) => {
+    res.render("distros/distro-list", {
+      distros: distros,
+      docTitle: "All distros",
+      path: "/distros",
+    });
   });
 };
 
-exports.postAddDistro = (req, res, next) => {
-  const distro = new Distro(req.body.title);
-  distro.save();
-  res.redirect("/");
+exports.getIndex = (req, res, next) => {
+  Distro.fetchAll((distros) => {
+    res.render("distros/index", {
+      distros: distros,
+      docTitle: "Index",
+      path: "/",
+    });
+  });
 };
 
-exports.getDistros = (req, res, next) => {
-  const distros = Distro.fetchAll((distros) => {
-    res.render("distros", { distros: distros, docTitle: "Distros", path: "/" });
+exports.getHopping = (req, res, next) => {
+  res.render("distros/hopping", {
+    docTitle: "Your hopping list",
+    path: "/hopping",
   });
 };
