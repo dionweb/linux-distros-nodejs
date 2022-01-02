@@ -2,14 +2,10 @@ const path = require("path");
 
 const express = require("express");
 
-const rootDir = require("../util/path");
-const adminData = require("./admin");
+const distrosController = require("../controllers/distros");
 
 const router = express.Router();
 
-router.get("/", (req, res, next) => {
-  const distros = adminData.distros;
-  res.render("distros", { distros: distros, docTitle: "Distros", path: "/" });
-});
+router.get("/", distrosController.getDistros);
 
 module.exports = router;
