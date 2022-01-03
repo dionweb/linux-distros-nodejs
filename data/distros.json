@@ -1,1 +1,1 @@
-[{"name":"Fedora","basedOn":"Independent","imageUrl":"https://getfedora.org/static/images/g-monitor-fedoralogo.png","desktopEnv":"GNOME","description":"Fedora Linux","isActive":"active"}]
+[{"id":"0.7056876927618445","name":"Fedora","basedOn":"Independent","imageUrl":"https://getfedora.org/static/images/g-monitor-fedoralogo.png","desktopEnv":"","description":"","isActive":"active"},{"id":"0.6621564153206381","name":"Ubuntu","basedOn":"","imageUrl":"https://assets.ubuntu.com/v1/8dd99b80-ubuntu-logo14.png","desktopEnv":"","description":"","isActive":"active"}]

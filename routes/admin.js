@@ -6,12 +6,16 @@ const adminController = require("../controllers/admin");
 
 const router = express.Router();
 
-// admin/add-distro .... admin/distros ==> GET
 router.get("/add-distro", adminController.getAddDistro);
 
 router.get("/distros", adminController.getDistros);
 
-// admin/add-distro .... admin/distros ==> POST
 router.post("/add-distro", adminController.postAddDistro);
+
+router.get("/edit-distro/:distroId", adminController.getEditDistro);
+
+router.post("/edit-distro", adminController.postEditDistro);
+
+router.post("/delete-distro", adminController.postDeleteDistro);
 
 module.exports = router;

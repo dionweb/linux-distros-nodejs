@@ -26,9 +26,8 @@
                <p class="distro-status">Status: <%= distro.isActive %></p>
             </div>
             <div class="card-actions">
-               <form action="/add-to-hopping" method="POST">
-                  <button class="btn">Add</button>
-               </form>
+               <a href="/distros/<%= distro.id %>" class="btn">Details</a>
+               <%- include('../includes/add-to-hopping.ejs', {distro: distro}) %>
 
             </div>
          </article>

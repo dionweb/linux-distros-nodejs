@@ -1,0 +1,45 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/css/add-distro.css">
+</head>
+
+<body>
+   <%- include('../includes/nav.ejs') %>
+
+   <main>
+      <form action="/admin/<% if (editing) { %>edit-distro<%} else{%>add-distro<%}%>" method="POST">
+         <div class="form-control">
+            <label for="name">Name</label>
+            <input type="text" name="name" id="name" value="<% if (editing) { %><%=distro.name%> <%}%>">
+         </div>
+         <div class="form-control">
+            <label for="imageUrl">Image URL</label>
+            <input type="text" name="imageUrl" id="imageUrl" value="<% if (editing) { %><%=distro.imageUrl%> <%}%>">
+         </div>
+         <div class="form-control">
+            <label for="basedOn">Based on</label>
+            <input type="text" name="basedOn" id="basedOn" value="<% if (editing) { %><%=distro.basedOn%> <%}%>">
+         </div>
+         <div class="form-control">
+            <label for="description">Description</label>
+            <textarea name="description" id="description" cols="30" rows="5"><% if (editing) { %><%=distro.description%> <%}%></textarea>
+         </div>
+         <div class="form-control">
+            <label for="desktopEnv">Desktop Env</label>
+            <input type="text" name="desktopEnv" id="desktopEnv" value="<% if (editing) { %><%=distro.desktopEnv%> <%}%>">
+         </div>
+
+         <div class="form-control">
+            <input type="radio" id="active" name="isActive" value="active" checked>
+            <label for="active">Active</label>
+         </div>
+         <div>
+            <input type="radio" id="inactive" name="isActive" value="inactive" >
+            <label for="inactive">Inactive</label>
+         </div>
+
+         <% if (editing) { %>
+            <input type=" hidden" value="<%= distro.id %>" name="distroId">
+         <% } %>
+
+         <button type="submit"> <% if (editing) { %> Update distro <% } else { %> Add Distro <% } %></button> </form>
+   </main> <%- include('../includes/end.ejs') %>

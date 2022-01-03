@@ -10,6 +10,12 @@ router.get("/", distrosController.getIndex);
 
 router.get("/distros", distrosController.getDistros);
 
-router.get("/hopping", distrosController.getHopping);
+router.get("/distros/:distroId", distrosController.getDistro);
+
+router.get("/hopping", distrosController.getHoppinglist);
+
+router.post("/hopping", distrosController.postHoppinglist);
+
+router.post("/hopping-delete-item", distrosController.postHoppingDeleteDistro);
 
 module.exports = router;
