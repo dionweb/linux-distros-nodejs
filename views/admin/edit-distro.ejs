@@ -29,16 +29,16 @@
          </div>
 
          <div class="form-control">
-            <input type="radio" id="active" name="isActive" value="active" checked>
+            <input type="radio" id="active" name="isActive" value="true" checked>
             <label for="active">Active</label>
          </div>
          <div>
-            <input type="radio" id="inactive" name="isActive" value="inactive" >
+            <input type="radio" id="inactive" name="isActive" value="false" >
             <label for="inactive">Inactive</label>
          </div>
 
          <% if (editing) { %>
-            <input type=" hidden" value="<%= distro.id %>" name="distroId">
+            <input type=" hidden" value="<%= distro._id %>" name="distroId">
          <% } %>
 
          <button type="submit"> <% if (editing) { %> Update distro <% } else { %> Add Distro <% } %></button> </form>

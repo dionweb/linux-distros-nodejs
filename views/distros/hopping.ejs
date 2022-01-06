@@ -9,9 +9,10 @@
       <ul>
          <% distros.forEach(p => { %>
          <li>
-            <p><%= p.distroData.name %></p>
+            <p><%= p.name %></p>
+            <img src="<%= p.imageUrl %>" alt="">
             <form action="/hopping-delete-item" method="POST">
-               <input type="hidden" value="<%= p.distroData.id %>" name="distroId">
+               <input type="hidden" value="<%= p._id %>" name="distroId">
                <button class="btn" type="submit">Delete</button>
             </form>
          </li>
