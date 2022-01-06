@@ -16,16 +16,15 @@ exports.postAddDistro = (req, res, next) => {
   const desktopEnv = req.body.desktopEnv;
   const description = req.body.description;
   const isActive = req.body.isActive;
-  const distro = new Distro(
-    name,
-    basedOn,
-    imageUrl,
-    desktopEnv,
-    description,
-    isActive,
-    null,
-    req.user._id
-  );
+  const distro = new Distro({
+    name: name,
+    basedOn: basedOn,
+    imageUrl: imageUrl,
+    desktopEnv: desktopEnv,
+    description: description,
+    isActive: isActive,
+    userId: req.user,
+  });
   distro
     .save()
     .then((result) => {
@@ -69,17 +68,16 @@ exports.postEditDistro = (req, res, next) => {
   const updatedDescription = req.body.description;
   const updatedIsActive = req.body.isActive;
 
-  const distro = new Distro(
-    updatedName,
-    updatedBasedOn,
-    updatedImageUrl,
-    updatedDesktopEnv,
-    updatedDescription,
-    updatedIsActive,
-    distId
-  );
-  distro
-    .save()
+  Distro.findById(distId)
+    .then((distro) => {
+      distro.name = updatedName;
+      distro.basedOn = updatedBasedOn;
+      distro.imageUrl = updatedImageUrl;
+      distro.desktopEnv = updatedDesktopEnv;
+      distro.description = updatedDescription;
+      distro.isActive = updatedIsActive;
+      return distro.save();
+    })
     .then((result) => {
       console.log("Updated Distro");
       res.redirect("/admin/distros");
@@ -90,8 +88,11 @@ exports.postEditDistro = (req, res, next) => {
 };
 
 exports.getDistros = (req, res, next) => {
-  Distro.fetchAll()
+  Distro.find()
+    /* .select("name imageUrl -_id")
+    .populate("userId", "name") */
     .then((distros) => {
+      console.log(distros);
       res.render("admin/distros", {
         distros: distros,
         docTitle: "Admin distros",
@@ -105,7 +106,7 @@ exports.getDistros = (req, res, next) => {
 
 exports.postDeleteDistro = (req, res, next) => {
   const distId = req.body.distroId;
-  Distro.deleteById(distId)
+  Distro.findByIdAndRemove(distId)
     .then(() => {
       console.log("Destroyed Distro");
       res.redirect("/admin/distros");

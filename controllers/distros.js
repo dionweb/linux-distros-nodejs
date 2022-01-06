@@ -1,20 +1,9 @@
 const Distro = require("../models/distro");
-/* const Hoppinglist = require("../models/hoppinglist");
- */
-
-/* exports.getDistros = (req, res, next) => {
-  Distro.fetchAll((distros) => {
-    res.render("distros/distro-list", {
-      distros: distros,
-      docTitle: "All distros",
-      path: "/distros",
-    });
-  });
-}; */
 
 exports.getDistros = (req, res, next) => {
-  Distro.fetchAll()
+  Distro.find()
     .then((distros) => {
+      console.log(distros);
       res.render("distros/distro-list", {
         distros: distros,
         docTitle: "All distros",
@@ -42,7 +31,7 @@ exports.getDistro = (req, res, next) => {
 };
 
 exports.getIndex = (req, res, next) => {
-  Distro.fetchAll()
+  Distro.find()
     .then((distros) => {
       res.render("distros/index", {
         distros: distros,
@@ -57,8 +46,10 @@ exports.getIndex = (req, res, next) => {
 
 exports.getHoppinglist = (req, res, next) => {
   req.user
-    .getHoppinglist()
-    .then((distros) => {
+    .populate("hoppinglist.items.distroId")
+    .then((user) => {
+      console.log(user.hoppinglist.items);
+      const distros = user.hoppinglist.items;
       res.render("distros/hopping", {
         path: "/hopping",
         docTitle: "Your Hoppinglist",
@@ -78,100 +69,14 @@ exports.postHoppinglist = (req, res, next) => {
       console.log(result);
       res.redirect("/hopping");
     });
-  /* let fetchedHoppinglist;
-  let newQuantity = 1;
-  req.user
-    .getHoppinglist()
-    .then((hoppinglist) => {
-      fetchedHoppinglist = hoppinglist;
-      return hoppinglist.getDistros({ where: { id: distId } });
-    })
-    .then((distros) => {
-      let distro;
-      if (distros.length > O) {
-        distro = distros[0];
-      }
-      if (distro) {
-        const oldQuantity = distro.hoppinglistItem.quantity;
-        newQuantity = oldQuantity + 1;
-        return distro;
-      }
-      return Distro.findById(distId);
-    })
-    .then((distro) => {
-      return fetchedHoppinglist.addDistro(distro, {
-        through: { quantity: newQuantity },
-      });
-    })
-    .then(() => {
-      res.redirect("/hoppinglist");
-    })
-    .catch((err) => console.log(err)); */
 };
 
 exports.postHoppinglistDeleteDistro = (req, res, next) => {
   const distId = req.body.distroId;
   req.user
-    .deleteItemFromHoppinglist(distId)
+    .removeFromHoppinglist(distId)
     .then((result) => {
       res.redirect("/hopping");
     })
     .catch((err) => console.log(err));
 };
-
-/* exports.getHoppinglist = (req, res, next) => {
-  req.user
-    .getHoppinglist()
-    .then((hoppinglist) => {
-      return hoppinglist
-        .getProducts()
-        .then((distros) => {
-          res.render("distros/hopping", {
-            path: "/hopping",
-            pageTitle: "Your hopping list",
-            distros: distros,
-          });
-        })
-        .catch((err) => console.log(err));
-    })
-    .catch((err) => console.log(err));
-
-Hoppinglist.getHoppinglist((hoppinglist) => {
-    Distro.fetchAll((distros) => {
-      const hoppinglistDistros = [];
-      for (distro of distros) {
-        const hoppinglistDistroData = hoppinglist.distros.find(
-          (dist) => dist.id === distro.id
-        );
-        if (hoppinglistDistroData) {
-          hoppinglistDistros.push({
-            distroData: distro,
-            qty: hoppinglistDistroData.qty,
-          });
-        }
-      }
-      res.render("distros/hopping", {
-        docTitle: "Your hopping list",
-        path: "/hopping",
-        distros: hoppinglistDistros,
-      });
-    });
-  });
-};
-
-exports.postHoppinglist = (req, res, next) => {
-  const distId = req.body.distroId;
-  Distro.findById(distId, (distro) => {
-    Hoppinglist.addDistro(distId);
-  });
-  res.redirect("/hopping");
-};
-
-exports.postHoppingDeleteDistro = (req, res, next) => {
-  const distId = req.body.distroId;
-  Distro.findById(distId, (distro) => {
-    Hoppinglist.deleteDistro(distId);
-    res.redirect("/hopping");
-  });
-};
- */

@@ -1,97 +1,60 @@
-const mongodb = require("mongodb");
-const getDb = require("../util/database").getDb;
+const mongoose = require("mongoose");
 
-const ObjectId = mongodb.ObjectId;
+const Schema = mongoose.Schema;
 
-class User {
-  constructor(username, email, hoppinglist, id) {
-    this.name = username;
-    this.email = email;
-    this.hoppinglist = hoppinglist;
-    this._id = id;
-  }
+const userSchema = new Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+  },
+  hoppinglist: {
+    items: [
+      {
+        distroId: {
+          type: Schema.Types.ObjectId,
+          ref: "Distro",
+          required: true,
+        },
+        quantity: { type: Number, required: true },
+      },
+    ],
+  },
+});
 
-  save() {
-    const db = getDb();
-    return db.collection("users").inserOne(this);
-  }
+userSchema.methods.addToHoppinglist = function (distro) {
+  const hoppinglistDistroIndex = this.hoppinglist.items.findIndex((cp) => {
+    return cp.distroId.toString() === distro._id.toString();
+  });
+  let newQuantity = 1;
+  const updatedHoppinglistItems = [...this.hoppinglist.items];
 
-  addToHoppinglist(distro) {
-    const hoppinglistDistroIndex = this.hoppinglist.items.findIndex((cp) => {
-      return cp.distroId.toString() === distro._id.toString();
+  if (hoppinglistDistroIndex >= 0) {
+    newQuantity = this.hoppinglist.items[hoppinglistDistroIndex].quantity + 1;
+    updatedHoppinglistItems[hoppinglistDistroIndex].quantity = newQuantity;
+  } else {
+    updatedHoppinglistItems.push({
+      distroId: distro._id,
+      quantity: newQuantity,
     });
-    let newQuantity = 1;
-    const updatedHoppinglistItems = [...this.hoppinglist.items];
-
-    if (hoppinglistDistroIndex >= 0) {
-      newQuantity = this.hoppinglist.items[hoppinglistDistroIndex].quantity + 1;
-      updatedHoppinglistItems[hoppinglistDistroIndex].quantity = newQuantity;
-    } else {
-      updatedHoppinglistItems.push({
-        distroId: new ObjectId(distro._id),
-        quantity: newQuantity,
-      });
-    }
-
-    const updatedHoppinglist = {
-      items: updatedHoppinglistItems,
-    };
-    const db = getDb();
-    return db
-      .collection("users")
-      .updateOne(
-        { _id: new ObjectId(this._id) },
-        { $set: { hoppinglist: updatedHoppinglist } }
-      );
   }
 
-  getHoppinglist() {
-    const db = getDb();
-    const distroIds = this.hoppinglist.items.map((i) => {
-      return i.distroId;
-    });
-    return db
-      .collection("distros")
-      .find({ _id: { $in: distroIds } })
-      .toArray()
-      .then((distros) => {
-        return distros.map((p) => {
-          return {
-            ...p,
-            quantity: this.hoppinglist.items.find((i) => {
-              return i.distroId.toString() === p._id.toString();
-            }).quantity,
-          };
-        });
-      });
-  }
+  const updatedHoppinglist = {
+    items: updatedHoppinglistItems,
+  };
+  this.hoppinglist = updatedHoppinglist;
+  return this.save();
+};
 
-  deleteItemFromHoppinglist(distroId) {
-    const updatedHoppinglistItems = this.hoppinglist.items.filter((item) => {
-      return item.distroId.toString() !== distroId.toString();
-    });
-    const db = getDb();
-    return db
-      .collection("users")
-      .updateOne(
-        { _id: new ObjectId(this._id) },
-        { $set: { hoppinglist: { items: updatedHoppinglistItems } } },
-        { upsert: true }
-      );
-  }
+userSchema.methods.removeFromHoppinglist = function (distroId) {
+  const updatedHoppinglistItems = this.hoppinglist.items.filter((item) => {
+    return item.distroId.toString() !== distroId.toString();
+  });
+  this.hoppinglist.items = updatedHoppinglistItems;
+  return this.save();
+};
 
-  static findById(userId) {
-    const db = getDb();
-    return db
-      .collection("users")
-      .findOne({ _id: new ObjectId(userId) })
-      .then((user) => {
-        console.log(user);
-        return user;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-}
-module.exports = User;
+module.exports = mongoose.model("User", userSchema);
