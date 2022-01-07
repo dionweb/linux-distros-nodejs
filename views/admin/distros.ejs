@@ -29,6 +29,7 @@
                <a href="/admin/edit-distro/<%= distro._id%>?edit=true" class="btn">Edit</a>
                <form action="/admin/delete-distro" method="POST">
                   <input type="hidden" value="<%= distro._id%>" name="distroId">
+                  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                   <button class="btn" type="submit">Delete</button>
                </form>
             </div>

@@ -48,7 +48,6 @@ exports.getHoppinglist = (req, res, next) => {
   req.user
     .populate("hoppinglist.items.distroId")
     .then((user) => {
-      console.log(user.hoppinglist.items);
       const distros = user.hoppinglist.items;
       res.render("distros/hopping", {
         path: "/hopping",

@@ -13,6 +13,7 @@
             <img src="<%= p.distroId.imageUrl %>" alt="">
             <form action="/hopping-delete-item" method="POST">
                <input type="hidden" value="<%= p.distroId._id %>" name="distroId">
+               <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                <button class="btn" type="submit">Delete</button>
             </form>
          </li>

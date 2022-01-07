@@ -1,4 +1,7 @@
+<% if (isAuthenticated) { %>
 <form action="/hopping" method="POST">
+   <input type="hidden" name="_csrf" value="<%= csrfToken %>">
    <button class="btn" type="submit">Hopping</button>
    <input type="hidden" name="distroId" value="<%= distro._id %>">
 </form>
+<% } %>

@@ -40,6 +40,6 @@
          <% if (editing) { %>
             <input type=" hidden" value="<%= distro._id %>" name="distroId">
          <% } %>
-
+         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
          <button type="submit"> <% if (editing) { %> Update distro <% } else { %> Add Distro <% } %></button> </form>
    </main> <%- include('../includes/end.ejs') %>
