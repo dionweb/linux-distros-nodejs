@@ -70,25 +70,28 @@ exports.postEditDistro = (req, res, next) => {
 
   Distro.findById(distId)
     .then((distro) => {
+      if (distro.userId.toString() !== req.user._id.toString()) {
+        return res.redirect("/");
+      }
       distro.name = updatedName;
       distro.basedOn = updatedBasedOn;
       distro.imageUrl = updatedImageUrl;
       distro.desktopEnv = updatedDesktopEnv;
       distro.description = updatedDescription;
       distro.isActive = updatedIsActive;
-      return distro.save();
+      return distro.save().then((result) => {
+        console.log("Updated Distro");
+        res.redirect("/admin/distros");
+      });
     })
-    .then((result) => {
-      console.log("Updated Distro");
-      res.redirect("/admin/distros");
-    })
+
     .catch((err) => {
       console.log(err);
     });
 };
 
 exports.getDistros = (req, res, next) => {
-  Distro.find()
+  Distro.find({ userId: req.user._id })
     /* .select("name imageUrl -_id")
     .populate("userId", "name") */
     .then((distros) => {
@@ -106,7 +109,7 @@ exports.getDistros = (req, res, next) => {
 
 exports.postDeleteDistro = (req, res, next) => {
   const distId = req.body.distroId;
-  Distro.findByIdAndRemove(distId)
+  Distro.deleteOne({ _id: distId, userId: req.user._id })
     .then(() => {
       console.log("Destroyed Distro");
       res.redirect("/admin/distros");
