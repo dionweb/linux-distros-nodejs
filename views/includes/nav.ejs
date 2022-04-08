@@ -1,40 +1,73 @@
-<header>
-   <nav>
-      <ul>
-         <li><a href="/" class="<%= path === '/' ? 'active' : '' %>">Home</a></li>
-         <li>
-            <a href="/distros" class="<%= path === '/distros' ? 'active' : '' %>">Distros</a>
-         </li>
+<nav class="relative container mx-auto p-6">
+   <div class="flex items-center justify-between">
+      <!-- Navigation image -->
+      <div class="pt-2">
+         <a href="/">
+            <img class="h-8" src="/images/tux.png" alt="Website Logo">
+         </a>
+      </div>
+      <!-- Navigation links -->
+      <div class="hidden space-x-6 md:flex ">
+         <a href="/"
+            class="<%= path === '/' ? 'underline underline-offset-4 decoration-2 hover:text-neutral-700 hover:decoration-neutral-700' : 'hover:text-neutral-700' %>">Home</a>
+         <a href="/distros"
+            class="<%= path === '/distros' ? 'underline underline-offset-4 decoration-2 hover:text-neutral-700 hover:decoration-neutral-700' : 'hover:text-neutral-700' %>">Distros</a>
+
          <% if (isAuthenticated) { %>
-         <li>
-            <a href="/hopping" class="<%= path === '/hopping' ? 'active' : '' %>">Hopping</a>
-         </li>
-         <li>
-            <a href="/admin/add-distro" class="<%= path === '/admin/add-distro' ? 'active' : '' %>">Add distro</a>
-         </li>
-         <li>
-            <a href="/admin/distros" class="<%= path === '/admin/distros' ? 'active' : '' %>">Admin Distros</a>
-         </li>
+         <a href="/hopping"
+            class="<%= path === '/hopping' ? 'underline underline-offset-4 decoration-2 hover:text-neutral-700 hover:decoration-neutral-700' : 'hover:text-neutral-700' %>">Hopping</a>
+         <a href="/admin/add-distro"
+            class="<%= path === '/admin/add-distro' ? 'underline underline-offset-4 decoration-2 hover:text-neutral-700 hover:decoration-neutral-700' : 'hover:text-neutral-700' %>">Add
+            distro</a>
+         <a href="/admin/distros"
+            class="<%= path === '/admin/distros' ? 'underline underline-offset-4 decoration-2 hover:text-neutral-700 hover:decoration-neutral-700' : 'hover:text-neutral-700' %>">Admin
+            Distros</a>
          <%} %>
-      </ul>
+      </div>
+      <!-- Navigation actions / Login - Logout -->
+      <% if (!isAuthenticated) { %>
+      <a href="/login"
+         class="hidden p-2 px-6 bg-blue-700 text-slate-200 rounded-full baseline hover:bg-blue-600 ease-out duration-300 md:block">Login</a>
 
-      <ul>
+      <%} else {%>
+      <form class="hidden md:block" action="/logout" method="POST">
+         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+         <button type="submit" class="text-red-600">Logout</button>
+      </form>
+      <% } %>
+
+      <!-- Hamburger icon -->
+      <button id="menu-btn" class="block hamburger md:hidden focus:outline-none">
+         <span class="hamburger-top"></span>
+         <span class="hamburger-middle"></span>
+         <span class="hamburger-bottom"></span>
+      </button>
+   </div>
+
+   <!-- Mobile menu -->
+   <div class="md:hidden">
+      <div id="menu"
+         class="absolute flex-col items-center selft-end py-8 mt-10 space-y-6 font-bold bg-gray-50 hidden sm:w-auto sm:self-center left-0 right-0 drop-shadow-md">
+         <a href="/">Home</a>
+         <a href="/distros">Distros</a>
+
+         <% if (isAuthenticated) { %>
+         <a href="/hopping">Hopping</a>
+         <a href="/admin/add-distro">Add distro</a>
+         <a href="/admin/distros">Admin distros</a>
+         <%} %>
+         <hr class="w-1/2 border-2">
+
          <% if (!isAuthenticated) { %>
-         <li>
-            <a class="<%= path === '/login' ? 'active' : '' %>" href="/login">Login</a>
-         </li>
-         <li>
-            <a class="<%= path === '/signup' ? 'active' : '' %>" href="/signup">Signup</a>
-         </li>
+         <a class="text-blue-700 " href="/login">Login</a>
          <%} else {%>
-         <li>
-            <form action="/logout" method="POST">
-               <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-               <button type="submit">Logout</button>
-            </form>
-         </li>
-         <% } %>
-      </ul>
 
-   </nav>
-</header>
+         <form action="/logout" method="POST">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <button type="submit" class="text-red-600">Logout</button>
+         </form>
+         <% } %>
+
+      </div>
+   </div>
+</nav>
