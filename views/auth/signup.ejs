@@ -1,29 +1,45 @@
 <%- include('../includes/head.ejs') %>
-<link rel="stylesheet" href="/css/add-distro.css">
 </head>
 
-<body>
-   <%- include('../includes/nav.ejs') %>
+<%- include('../includes/body-start.ejs') %>
+<%- include('../includes/nav.ejs') %>
 
-   <main>
-      <% if (errorMessage) { %>
-      <div class="user-message user-message--error"><%= errorMessage %></div>
-      <% } %>
+<main class="container mx-auto ">
+   <h1 class="mt-16 mb-11 text-2xl text-center">Create an account to Linux Distros!</h1>
+   <div class="bg-gray-50 w-96 mx-auto py-12 px-12 drop-shadow-xl shadow-inner rounded-lg">
       <form action="/signup" method="POST">
-         <div class="form-control">
-            <label for="email">E-Mail</label>
-            <input type="email" name="email" id="email">
+         <div class="mb-4">
+            <label class="block mb-1" for="email">E-Mail</label>
+            <input class="block w-full bg-transparent border-b-2 border-gray-300 focus:outline-none" type="email"
+               name="email" id="email">
          </div>
-         <div class="form-control">
-            <label for="password">Password</label>
-            <input type="password" name="password" id="password">
+         <div class="mb-4">
+            <label class="block mb-1" for="password">Password</label>
+            <input class="block w-full bg-transparent border-b-2 border-gray-300 focus:outline-none" type="password"
+               name="password" id="password">
          </div>
-         <div class="form-control">
-            <label for="confirmPassword">Confirm Password</label>
-            <input type="password" name="confirmPassword" id="confirmPassword">
+         <div class="mb-6">
+            <label class="block mb-1" for="confirmPassword">Confirm Password</label>
+            <input class="block w-full bg-transparent border-b-2 border-gray-300 focus:outline-none" type="password"
+               name="confirmPassword" id="confirmPassword">
          </div>
          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-         <button class="btn" type="submit">Sign up</button>
+         <button
+            class="bg-blue-700 text-slate-200 rounded-lg px-4 py-2 mb-7 w-full transition ease-in-out 5 hover:bg-blue-500 duration-300"
+            type="submit">Sign up</button>
+         <% if (errorMessage) { %>
+
+         <div class=" text-center mb-7">
+            <p class="text-red-600 font-bold"><%= errorMessage %></p>
+         </div>
+
+         <% } %>
       </form>
-   </main>
-   <%- include('../includes/end.ejs') %>
+      <hr class="border-1 border-gray-300 w-1/3 m-auto mb-7">
+      <p class="text-center">Already have an account? <span class="text-blue-700 hover:text-blue-500 block"><a
+               href="/login">Sign in.
+            </a></span> </p>
+   </div>
+
+</main>
+<%- include('../includes/end.ejs') %>

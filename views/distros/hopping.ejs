@@ -1,27 +1,27 @@
 <%- include('../includes/head.ejs') %>
 </head>
 
-<body>
-   <%- include('../includes/nav.ejs') %>
+<%- include('../includes/body-start.ejs') %>
+<%- include('../includes/nav.ejs') %>
 
-   <main>
-      <% if (distros.length > 0) { %>
-      <ul>
-         <% distros.forEach(p => { %>
-         <li>
-            <p><%= p.distroId.name %></p>
-            <img src="<%= p.distroId.imageUrl %>" alt="">
-            <form action="/hopping-delete-item" method="POST">
-               <input type="hidden" value="<%= p.distroId._id %>" name="distroId">
-               <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-               <button class="btn" type="submit">Delete</button>
-            </form>
-         </li>
-         <% }) %>
-      </ul>
-      <% } else { %>
-      <h1>No distros in Hopping list</h1>
-      <% } %>
-   </main>
+<main>
+   <% if (distros.length > 0) { %>
+   <ul>
+      <% distros.forEach(p => { %>
+      <li>
+         <p><%= p.distroId.name %></p>
+         <img src="<%= p.distroId.imageUrl %>" alt="">
+         <form action="/hopping-delete-item" method="POST">
+            <input type="hidden" value="<%= p.distroId._id %>" name="distroId">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <button class="btn" type="submit">Delete</button>
+         </form>
+      </li>
+      <% }) %>
+   </ul>
+   <% } else { %>
+   <h1>No distros in Hopping list</h1>
+   <% } %>
+</main>
 
-   <%- include('../includes/end.ejs') %>
+<%- include('../includes/end.ejs') %>

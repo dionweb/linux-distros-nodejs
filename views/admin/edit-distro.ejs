@@ -1,12 +1,11 @@
 <%- include('../includes/head.ejs') %>
-<link rel="stylesheet" href="/css/add-distro.css">
 </head>
 
-<body>
-   <%- include('../includes/nav.ejs') %>
+<%- include('../includes/body-start.ejs') %>
+<%- include('../includes/nav.ejs') %>
 
-   <main>
-      <form action="/admin/<% if (editing) { %>edit-distro<%} else{%>add-distro<%}%>" method="POST">
+<main>
+   <form action="/admin/<% if (editing) { %>edit-distro<%} else{%>add-distro<%}%>" method="POST">
          <div class="form-control">
             <label for="name">Name</label>
             <input type="text" name="name" id="name" value="<% if (editing) { %><%=distro.name%> <%}%>">
@@ -39,7 +38,7 @@
 
          <% if (editing) { %>
             <input type=" hidden" value="<%= distro._id %>" name="distroId">
-         <% } %>
-         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-         <button type="submit"> <% if (editing) { %> Update distro <% } else { %> Add Distro <% } %></button> </form>
-   </main> <%- include('../includes/end.ejs') %>
+      <% } %>
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <button type="submit"> <% if (editing) { %> Update distro <% } else { %> Add Distro <% } %></button> </form>
+</main> <%- include('../includes/end.ejs') %>

@@ -32,7 +32,10 @@ exports.getDistro = (req, res, next) => {
 
 exports.getIndex = (req, res, next) => {
   Distro.find()
+    .sort({ $natural: -1 })
+    .limit(3)
     .then((distros) => {
+      console.log(distros);
       res.render("distros/index", {
         distros: distros,
         docTitle: "Index",
