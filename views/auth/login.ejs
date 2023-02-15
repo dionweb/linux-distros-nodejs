@@ -10,13 +10,15 @@
       <form action="/login" method="POST">
          <div class="mb-4">
             <label class="block mb-1" for="email">Email</label>
-            <input class="block w-full bg-transparent border-b-2 border-gray-300 focus:outline-none" type="email"
-               name="email" id="email">
+            <input
+               class="block w-full bg-transparent border-b-2 border-gray-300 focus:outline-none <%= validationErrors.find(e => e.param === 'email') ? 'border-red-700' : '' %>"
+               type="email" name="email" id="email" value="<%= oldInput.email %>">
          </div>
          <div class="mb-6">
             <label class="block mb-1" for="password">Password</label>
-            <input class="block w-full bg-transparent border-b-2 border-gray-300 focus:outline-none" type="password"
-               name="password" id="password">
+            <input
+               class="block w-full bg-transparent border-b-2 border-gray-300 focus:outline-none <%= validationErrors.find(e => e.param === 'password') ? 'border-red-700' : '' %>"
+               type="password" name="password" id="password" value="<%= oldInput.password %>">
          </div>
          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
          <button type="submit"
